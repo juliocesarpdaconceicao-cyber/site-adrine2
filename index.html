@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Para Adrine 💙</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:linear-gradient(#7fd6ff,#e6f8ff);
+color:#043a57;
+overflow-x:hidden;
+}
+
+/* LOADING */
+
+#loading{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#7fd6ff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+transition:opacity 1s;
+}
+
+.loading-bar{
+width:250px;
+height:8px;
+background:white;
+border-radius:10px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.loading-progress{
+height:100%;
+width:0%;
+background:#008cff;
+}
+
+/* BARRA PROGRESSO */
+
+#progress{
+position:fixed;
+top:0;
+left:0;
+height:6px;
+background:#008cff;
+width:0%;
+z-index:10;
+}
+
+/* CANVAS FUNDO */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-2;
+}
+
+/* NUVENS */
+
+.cloud{
+position:fixed;
+background:white;
+border-radius:50px;
+opacity:0.7;
+z-index:-1;
+filter:blur(2px);
+}
+
+/* CORAÇÕES */
+
+.heart{
+position:fixed;
+top:-20px;
+font-size:18px;
+animation:cair linear forwards;
+}
+
+@keyframes cair{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* INTRO */
+
+.intro{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+animation:cinema 2s ease;
+padding:20px;
+}
+
+@keyframes cinema{
+from{
+opacity:0;
+transform:scale(1.2);
+filter:blur(10px);
+}
+to{
+opacity:1;
+transform:scale(1);
+filter:blur(0);
+}
+}
+
+.title{
+font-size:clamp(36px,6vw,60px);
+margin-bottom:20px;
+}
+
+/* SEÇÕES */
+
+section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+
+opacity:0;
+transform:translateY(80px);
+filter:blur(10px);
+
+transition:1.2s;
+}
+
+section.show{
+opacity:1;
+transform:translateY(0);
+filter:blur(0);
+}
+
+/* IMAGENS */
+
+img{
+width:90%;
+max-width:420px;
+border-radius:20px;
+margin-bottom:25px;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
+
+transition:transform 0.4s, box-shadow 0.4s;
+}
+
+img:hover{
+transform:rotateY(10deg) rotateX(6deg) scale(1.05);
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* FRASES */
+
+.frase{
+font-size:26px;
+max-width:700px;
+padding:0 20px;
+line-height:1.4;
+}
+
+/* FINAL */
+
+.final{
+font-size:28px;
+max-width:700px;
+padding:20px;
+line-height:1.5;
+}
+
+/* GLITCH */
+
+.glitch{
+position:relative;
+}
+
+.glitch::before,
+.glitch::after{
+content:attr(data-text);
+position:absolute;
+left:0;
+top:0;
+opacity:0.8;
+}
+
+.glitch::before{
+color:#00f;
+animation:glitch1 2s infinite;
+}
+
+.glitch::after{
+color:#f00;
+animation:glitch2 2s infinite;
+}
+
+@keyframes glitch1{
+0%{transform:translate(2px,0)}
+50%{transform:translate(-2px,2px)}
+100%{transform:translate(2px,-1px)}
+}
+
+@keyframes glitch2{
+0%{transform:translate(-2px,0)}
+50%{transform:translate(2px,-2px)}
+100%{transform:translate(-1px,1px)}
+}
+
+/* CORAÇÕES FINAIS */
+
+.rainbow{
+position:fixed;
+font-size:22px;
+animation:rainbowUp 3s linear forwards;
+}
+
+@keyframes rainbowUp{
+0%{
+transform:translateY(0);
+opacity:1;
+}
+100%{
+transform:translateY(-300px);
+opacity:0;
+}
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.frase{
+font-size:24px;
+}
+
+.final{
+font-size:24px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+
+<h2>Carregando memórias...</h2>
+
+<div class="loading-bar">
+<div class="loading-progress" id="loadbar"></div>
+</div>
+
+</div>
+
+<div id="progress"></div>
+
+<audio id="musica" autoplay loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="bg"></canvas>
+
+<!-- NUVENS -->
+
+<div class="cloud" style="width:150px;height:70px;top:80px;left:10%;"></div>
+<div class="cloud" style="width:180px;height:80px;top:200px;left:50%;"></div>
+<div class="cloud" style="width:120px;height:60px;top:350px;left:80%;"></div>
+
+<div class="intro">
+
+<h1 class="title glitch" data-text="Adrine 💙">Adrine 💙</h1>
+
+<p id="typing"></p>
+
+</div>
+
+<section class="sec">
+
+<img src="doors1.jpg">
+
+<div class="frase">
+Esse foi o dia que você chegou na porta 50  
+com o celular travando…  
+e acabou morrendo 😂
+</div>
+
+</section>
+
+<section class="sec">
+
+<img src="doors2.jpg">
+
+<div class="frase">
+Esse foi o dia que você chegou na porta 90…  
+mas o Seek apareceu 😭
+</div>
+
+</section>
+
+<section class="sec">
+
+<img src="doors3.jpg">
+
+<div class="frase">
+E esse foi o dia que você finalmente zerou Doors  
+mesmo sem mim jogando junto.
+</div>
+
+</section>
+
+<section class="sec">
+
+<img src="evade.jpg">
+
+<div class="frase">
+E aquele dia em Evade  
+que a gente só ficava correndo dos bots  
+e rindo sem parar.
+</div>
+
+</section>
+
+<section class="sec">
+
+<div class="final">
+
+Não importa quantas vezes eu te perca pelo caminho…  
+eu sempre vou atrás de você novamente 💙
+
+<br><br>
+
+Feliz Dia das Mulheres Adrine 🌸
+
+</div>
+
+</section>
+
+<script>
+
+/* LOADING */
+
+let progress=0
+let bar=document.getElementById("loadbar")
+
+let loading=setInterval(()=>{
+
+progress+=2
+bar.style.width=progress+"%"
+
+if(progress>=100){
+
+clearInterval(loading)
+
+setTimeout(()=>{
+
+document.getElementById("loading").style.opacity="0"
+
+setTimeout(()=>{
+document.getElementById("loading").style.display="none"
+},1000)
+
+},500)
+
+}
+
+},40)
+
+/* MUSICA */
+
+const musica=document.getElementById("musica")
+
+window.addEventListener("load",()=>{
+
+musica.volume=0.7
+
+musica.play().catch(()=>{
+
+document.body.addEventListener("click",()=>{
+musica.play()
+},{once:true})
+
+})
+
+})
+
+/* TEXTO DIGITANDO */
+
+const texto="Algumas memórias nossas jogando juntos..."
+let i=0
+
+function digitar(){
+
+if(i<texto.length){
+
+document.getElementById("typing").innerHTML+=texto.charAt(i)
+
+i++
+
+setTimeout(digitar,60)
+
+}
+
+}
+
+digitar()
+
+/* ROLAGEM */
+
+const sections=document.querySelectorAll(".sec")
+
+window.addEventListener("scroll",()=>{
+
+const trigger=window.innerHeight*0.8
+
+sections.forEach(sec=>{
+
+const top=sec.getBoundingClientRect().top
+
+if(top<trigger){
+sec.classList.add("show")
+}
+
+})
+
+const winScroll=document.body.scrollTop||document.documentElement.scrollTop
+
+const height=document.documentElement.scrollHeight-document.documentElement.clientHeight
+
+const scrolled=(winScroll/height)*100
+
+document.getElementById("progress").style.width=scrolled+"%"
+
+})
+
+/* CORAÇÕES */
+
+function coracoes(){
+
+const heart=document.createElement("div")
+
+heart.classList.add("heart")
+
+heart.innerHTML="💙"
+
+heart.style.left=Math.random()*100+"vw"
+
+heart.style.fontSize=(Math.random()*20+15)+"px"
+
+heart.style.animationDuration=(Math.random()*3+3)+"s"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),6000)
+
+}
+
+setInterval(coracoes,500)
+
+/* PARTICULAS */
+
+const canvas=document.getElementById("bg")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+for(let i=0;i<100;i++){
+
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2
+})
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="white"
+
+particles.forEach(p=>{
+
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2)
+ctx.fill()
+
+p.y+=0.2
+
+if(p.y>canvas.height)p.y=0
+
+})
+
+requestAnimationFrame(animate)
+
+}
+
+animate()
+
+/* PARALLAX */
+
+window.addEventListener("scroll",()=>{
+
+const scroll=window.scrollY
+
+document.querySelectorAll(".cloud").forEach((cloud,i)=>{
+
+cloud.style.transform=`translateX(${scroll*0.1*(i+1)}px)`
+
+})
+
+})
+
+/* CORAÇÕES FINAIS */
+
+const final=document.querySelector(".final")
+
+final.addEventListener("mouseenter",()=>{
+
+for(let i=0;i<40;i++){
+
+const heart=document.createElement("div")
+
+heart.classList.add("rainbow")
+
+heart.innerHTML="💙"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.bottom="0"
+
+heart.style.fontSize=(Math.random()*20+20)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),3000)
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
